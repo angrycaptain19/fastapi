@@ -226,8 +226,7 @@ def generate_readme_content():
     message = template.render(sponsors=sponsors)
     pre_content = content[:pre_end]
     post_content = content[post_start:]
-    new_content = pre_content + message + post_content
-    return new_content
+    return pre_content + message + post_content
 
 
 @app.command()
@@ -405,8 +404,7 @@ def get_key_section(
 def get_text_with_translate_missing(text: str) -> str:
     lines = text.splitlines()
     lines.insert(1, missing_translation_snippet)
-    new_text = "\n".join(lines)
-    return new_text
+    return "\n".join(lines)
 
 
 def get_file_to_nav_map(nav: list) -> Dict[str, Tuple[str, ...]]:

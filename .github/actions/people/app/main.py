@@ -272,12 +272,11 @@ def get_graphql_response(
         headers=headers,
         json={"query": query, "variables": variables, "operationName": "Q"},
     )
-    if not response.status_code == 200:
+    if response.status_code != 200:
         logging.error(f"Response was not 200, after: {after}")
         logging.error(response.text)
         raise RuntimeError(response.text)
-    data = response.json()
-    return data
+    return response.json()
 
 
 def get_graphql_issue_edges(*, settings: Settings, after: Optional[str] = None):
@@ -476,11 +475,11 @@ if __name__ == "__main__":
     )
 
     tiers = get_individual_sponsors(settings=settings)
-    sponsors_50 = []
-    for login, sponsor in tiers[50].items():
-        sponsors_50.append(
-            {"login": login, "avatarUrl": sponsor.avatarUrl, "url": sponsor.url}
-        )
+    sponsors_50 = [
+        {"login": login, "avatarUrl": sponsor.avatarUrl, "url": sponsor.url}
+        for login, sponsor in tiers[50].items()
+    ]
+
     keys = list(tiers.keys())
     keys.sort(reverse=True)
     sponsors = []
